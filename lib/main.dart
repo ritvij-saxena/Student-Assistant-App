@@ -40,7 +40,10 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => RegistrationPage()));
+              },
               color: Colors.white,
               child: Text(
                 'Register / Sign In',
@@ -135,6 +138,131 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+class RegistrationPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return RegistrationPageState();
+  }
+
+}
+
+class RegistrationPageState extends State<RegistrationPage> {
+  final key = GlobalKey<FormState>();
+  String email;
+  String password;
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.red, Colors.white]
+            )
+        ), child: Center(
+        child: Container(
+            height: 500,
+            width: 400,
+            color: Colors.white,
+            child: Card(
+              elevation: 5.0,
+              child: Form(
+                key: key,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Registration Page',
+                      style: TextStyle(fontSize: 30.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        onSaved: (value) => email = value,
+                        decoration: InputDecoration(
+                            labelText: "Email ID", hintText: "Email ID"),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Enter EMAIL ID';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        onSaved: (value) => password = value,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Enter Some string';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: "Password", hintText: "Password"),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        onSaved: (value) => password = value,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Enter Some string';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: "Confirm Password", hintText: "Confirm Password"),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    Flexible(
+                      child: RaisedButton(
+                        color: Colors.black,
+                        child: Text(
+                          'Register',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          if (key.currentState.validate()) {
+                            key.currentState.save();
+                            print(email);
+                            print(password);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()));
+                          }
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+
+        ),
+      ),
+      ),
+    );
+  }
+
 }
 
 class HomePage extends StatefulWidget {
@@ -451,37 +579,44 @@ class HomePageState extends State<HomePage> {
   Widget settings() {
     return Center(child: Column(children: [
       SizedBox(height: 20.0,),
-       Row(
-            children: <Widget>[
-              Flexible(
-                child: Container(color: Colors.white,
-                    child: Column(
+      Row(
+        children: <Widget>[
+          Flexible(
+            child: Container(color: Colors.white,
+                child: Column(
                   children: <Widget>[
-                    TextField(decoration: InputDecoration(labelText: "New Password",hintText: "New Password"),),
-                    TextField(decoration: InputDecoration(labelText: "Confirm Password",hintText: "Confirm Password"),),
+                    TextField(decoration: InputDecoration(
+                        labelText: "New Password", hintText: "New Password"),),
+                    TextField(decoration: InputDecoration(
+                        labelText: "Confirm Password",
+                        hintText: "Confirm Password"),),
                     RaisedButton(
                       color: Colors.red,
-                      child: Text('Change Password',style: TextStyle(color: Colors.white),),
-                      onPressed: (){},
+                      child: Text(
+                        'Change Password', style: TextStyle(color: Colors
+                          .white),),
+                      onPressed: () {},
                     )
                   ],
                 )),
-              ),
-              SizedBox(width: 10.0,),
-              Flexible(
-                child: Container(color:Colors.white,child: Column(
-                  children: <Widget>[
-                    TextField(decoration: InputDecoration(labelText: "New Username",hintText: "New Username"),),
-                    RaisedButton(
-                      color: Colors.red,
-                      child: Text('Change Password',style: TextStyle(color: Colors.white),),
-                      onPressed: (){},
-                    )
-                  ],
-                )),
-              ),
-            ],
-       ),
+          ),
+          SizedBox(width: 10.0,),
+          Flexible(
+            child: Container(color: Colors.white, child: Column(
+              children: <Widget>[
+                TextField(decoration: InputDecoration(
+                    labelText: "New Username", hintText: "New Username"),),
+                RaisedButton(
+                  color: Colors.red,
+                  child: Text('Change Password', style: TextStyle(color: Colors
+                      .white),),
+                  onPressed: () {},
+                )
+              ],
+            )),
+          ),
+        ],
+      ),
     ]));
   }
 
