@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 void main() => runApp(MyApp());
 
@@ -276,6 +277,21 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   Widget bodyWidget;
   bool set = false;
+  CalendarController calendarController;
+
+
+  @override
+  void initState() {
+    super.initState();
+    calendarController = CalendarController();
+  }
+
+
+  @override
+  void dispose() {
+    calendarController.dispose();
+    super.dispose();
+  }
 
   Widget schedule() {
     return Column(
@@ -393,10 +409,8 @@ class HomePageState extends State<HomePage> {
   Widget professorSchedule() {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          SizedBox(
-            height: 30.0,
-          ),
           Expanded(
             child: Container(
               color: Colors.white,
@@ -457,12 +471,15 @@ class HomePageState extends State<HomePage> {
                 ),
                 Expanded(
                   child: Container(
-                    height: 400,
+                    height: 500,
                     width: 400,
                     color: Colors.white,
                     child: Column(
                       children: <Widget>[
-                        Expanded(child: Text('Calendar +  Day + Time')),
+                        Expanded(child:  SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: TableCalendar(calendarController: calendarController,startDay: DateTime.now(),))
+                          /*Text('Calendar +  Day + Time')*/),
                         RaisedButton(
                           onPressed: () {},
                           color: Colors.red,
@@ -486,10 +503,8 @@ class HomePageState extends State<HomePage> {
   Widget taSchedule() {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          SizedBox(
-            height: 30.0,
-          ),
           Expanded(
             child: Container(
               color: Colors.white,
@@ -550,12 +565,14 @@ class HomePageState extends State<HomePage> {
                 ),
                 Expanded(
                   child: Container(
-                    height: 400,
+                    height: 500,
                     width: 400,
                     color: Colors.white,
                     child: Column(
                       children: <Widget>[
-                        Expanded(child: Text('Calendar +  Day + Time')),
+                        Flexible(child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: TableCalendar(calendarController: calendarController,))),
                         RaisedButton(
                           onPressed: () {},
                           color: Colors.red,
@@ -665,6 +682,7 @@ class HomePageState extends State<HomePage> {
               child: FlatButton(
                 child: Center(child: Text('Teaching Assistants')),
                 onPressed: () {
+                  Navigator.of(context).pop();
                   setState(() {
                     set = true;
                     bodyWidget = taSchedule();
@@ -677,6 +695,7 @@ class HomePageState extends State<HomePage> {
               child: FlatButton(
                 child: Center(child: Text('Settings')),
                 onPressed: () {
+                  Navigator.of(context).pop();
                   setState(() {
                     set = true;
                     bodyWidget = settings();
